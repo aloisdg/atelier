@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte de Voeux</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-size: 140px;
+            background-color: royalblue;
+            color: gold;
+            display: grid;
+            place-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        Bonne année <span id="year"></span>
+    </div>
+
+    <script>
+        var today = new Date();
+        var year = today.getFullYear();
+
+        document.querySelector("#year").textContent = year;
+    </script>
+</body>
+
+</html>
