@@ -31,7 +31,7 @@
 <body>
 
     <div id="result">2</div>
-    <button id="roll" type="button">roll</button>
+
     <select name="selectNumber" id="selectNumber">
         <option value="4">4</option>
         <option value="6">6</option>
@@ -42,9 +42,12 @@
         <option value="100">100</option>
     </select>
 
+    <button id="roll" type="button">roll</button>
+
     <script>
         const result = document.querySelector('#result');
         const roll = document.querySelector('#roll');
+        const selectNumber = document.querySelector('#selectNumber');
 
         //The maximum is exclusive and the minimum is inclusive
         function getRandomInt(min, max) {
@@ -54,10 +57,12 @@
         }
 
         roll.onclick = function () {
-            result.textContent = getRandomInt(1, 7);
+            const max = parseInt(selectNumber.value);
+            result.textContent = getRandomInt(1, max + 1);
         }
 
-        result.textContent = getRandomInt(1, 7);
+        const max = parseInt(selectNumber.value);
+        result.textContent = getRandomInt(1, max + 1);
 
     </script>
 
