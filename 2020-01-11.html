@@ -1,13 +1,57 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roll dice</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-size: 140px;
+            background-color: royalblue;
+            color: gold;
+            display: grid;
+            place-items: center;
+        }
+
+        #roll {
+            font-size: 70px;
+        }
+    </style>
 </head>
+
 <body>
-    
+
     <div id="result">2</div>
     <button id="roll" type="button">roll</button>
 
+    <script>
+        const result = document.querySelector('#result');
+        const roll = document.querySelector('#roll');
+
+        //The maximum is exclusive and the minimum is inclusive
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+
+        roll.onclick = function () {
+            result.textContent = getRandomInt(1, 7);
+        }
+
+        result.textContent = getRandomInt(1, 7);
+
+    </script>
+
 </body>
+
 </html>
