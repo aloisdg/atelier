@@ -1,0 +1,79 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte de Voeux</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-size: 140px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            color: gold;
+            display: grid;
+            place-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        var coffee = "https://images.unsplash.com/photo-1608552265242-65a398258f3c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHw%3D&auto=format&fit=crop&w=500&q=60";
+        var woman = "https://images.unsplash.com/photo-1609387116764-5d5be978a974?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max";
+        var plant = "https://images.unsplash.com/photo-1609841265900-80901658e5d4?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max";
+        var darkness = "https://images.unsplash.com/photo-1610742962610-7ca9d7cf1dd9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max";
+        var field = "https://images.unsplash.com/photo-1609348505664-b1017d7ab055?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max";
+
+        var urls = [coffee, woman, plant, darkness, field];
+        var position = 2;
+        // could have been done with module '%' operator
+        document.onkeydown = function (event) {
+            switch (event.keyCode) {
+                case 37:
+                    if (position === 0) {
+                        position = urls.length - 1;
+                    }
+                    else {
+                        position -= 1;
+                    }
+                    document.body.style.backgroundImage = "url('" + urls[position] + ')';
+                    break;
+                case 39:
+                    if (position === urls.length - 1) {
+                        position = 0;
+                    } else {
+                        position += 1;
+                    }
+                    document.body.style.backgroundImage = "url('" + urls[position] + ')';
+                    break;  
+            }
+
+            // switch (event.keyCode) {
+            //     case 37:
+            //         document.body.style.backgroundImage = "url('" + urls[position-- % urls.length] + ')';
+            //         break;
+            //     case 39:
+            //         document.body.style.backgroundImage = "url('" + urls[position++ % urls.length] + ')';
+            //         break;
+            // }
+
+            console.log("position: " + position);
+            console.log("touche: " + event.keyCode)
+        };
+
+        document.body.style.backgroundImage = "url('" + urls[position] + ')';
+    </script>
+</body>
+
+</html>
