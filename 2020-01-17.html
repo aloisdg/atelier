@@ -15,13 +15,9 @@
         }
 
         body {
-            font-size: 140px;
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
-            color: gold;
-            display: grid;
-            place-items: center;
         }
     </style>
 </head>
@@ -37,7 +33,7 @@
 
         var urls = [coffee, woman, plant, darkness, field];
         var position = 2;
-        // could have been done with module '%' operator
+        // could have been done with modulo '%' operator
         document.onkeydown = function (event) {
             switch (event.keyCode) {
                 case 37:
