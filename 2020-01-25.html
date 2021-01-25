@@ -1,0 +1,72 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC2USD</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>BTC 2 XXX</h1>
+
+    <label>BTC</label>
+    <input id="btcInput" type="number" value="1" />
+    <button type="button" id="convert">convert</button>
+    <p class="flex items-center">
+        <span id="result"></span>
+        <select id="currencySelect">
+            <option value="USD">USD</option>
+            <option value="CNY">CNY</option>
+            <option value="EUR">EUR</option>
+        </select>
+    </p>
+
+    <script>
+        function convertBtcToRate(btc, rate) {
+            return btc * rate;
+        }
+
+        function setResult(rate) {
+            var btc = parseFloat(btcInput.value);
+            result.textContent = convertBtcToRate(btc, rate)
+        }
+
+        function fetchBtc() {
+            var currency = currencySelect.value;
+            var url = "https://api.coindesk.com/v1/bpi/currentprice/" + currency + ".json";
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    setResult(data.bpi[currency].rate_float);
+                })
+        }
+
+        convert.onclick = function () {
+            fetchBtc();
+        }
+        currencySelect.onchange = function () {
+            fetchBtc();
+        }
+
+
+    </script>
+</body>
+
+</html>
