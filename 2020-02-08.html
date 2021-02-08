@@ -1,0 +1,95 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: 100px 1fr auto;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        footer {
+            margin: 10px auto;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- https://www.salaire-brut-en-net.fr/ -->
+    <!-- https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json -->
+    <!-- https://api.gouv.fr/documentation/jours-feries -->
+    <header>
+        <h1>Calcul du salaire brut en net</h1>
+    </header>
+    <main>
+        <div class="wrapper">
+            <div><label for="hourlyGross">Horaire Brut</label><input id="hourlyGross" type="number"
+                    placeholder="ex: 9.88"></div>
+            <div><label for="hourlyNet">Horaire Net</label><input id="hourlyNet" type="number"></div>
+            <div><label for="monthlyGross">Mensuel Brut</label><input id="monthlyGross" type="number"></div>
+            <div><label for="monthlyNet">Mensuel Net</label><input id="monthlyNet" type="number"></div>
+            <div><label for="annualyGross">Annuel Brut</label><input id="annualyGross" type="number"></div>
+            <div><label for="annualyNet">Annuel Net</label><input id="annualyNet" type="number"></div>
+        </div>
+    </main>
+    <footer>make with ❤ by alois</footer>
+
+    <script>
+
+        function calculateNet(gross) {
+            return gross - gross * 0.22;
+        }
+
+        function getMonthlyFromHourly(hourly) {
+            const dayly = hourly * 7;
+            // todo: improve this approximation
+            const monthly = dayly * 20;
+            return monthly; 
+        }
+
+        function getAnnualyFromMonthly(monthly) {
+            const annualy = monthly * 12;
+            return annualy;
+        }
+
+        function round2(value) {
+            return value.toFixed(2)
+        }
+
+        function updateForm(event) {
+            const currentInput = event.target;
+            const currentHourly = parseFloat(currentInput.value);
+            hourlyNet.value = round2(calculateNet(currentHourly));
+            
+            const currentMonthly = getMonthlyFromHourly(currentHourly);
+            monthlyGross.value = round2(currentMonthly);
+            monthlyNet.value = round2(calculateNet(currentMonthly));
+
+            const currentAnnualy = getAnnualyFromMonthly(currentMonthly);
+            annualyGross.value = round2(currentAnnualy);
+            annualyNet.value = round2(calculateNet(currentAnnualy));
+        }
+
+        document.querySelectorAll('.wrapper input#hourlyGross').forEach(input => {
+            input.onchange = updateForm;
+        })
+    </script>
+</body>
+
+</html>
