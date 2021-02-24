@@ -1,0 +1,125 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://fonts.cdnfonts.com/css/england-hand-db" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <title>Republigram</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>Générateur de photos présidentielles</h1>
+        </header>
+
+        <section>
+            <div>
+                <label for="ligne1" class="form-label">Verbe (max. 20 caractères)</label>
+                <input type="text" class="form-control" id="ligne1" name="ligne1"
+                    placeholder="Installer, aérer, se laver, porter, …" maxlength="20" required="">
+            </div>
+            <div>
+                <label for="ligne2" class="form-label">Complément d'objet direct (max. 20 caractères)</label>
+                <input type="text" class="form-control" id="ligne2" name="ligne2"
+                    placeholder="Tous Anti Covid, la pièce, les mains, le masque, …" maxlength="20" required="">
+            </div>
+            <div>
+                <label for="image">Image de fond</label>
+                <input type="file" id="image" name="image" required="" accept="image/*">
+            </div>
+            <div>
+                <button type="button" id="generate">En marche !</button>
+
+            </div>
+            <div>
+                <canvas width="480" height="480" id="canvas"></canvas>
+            </div>
+            <div>
+                <button type="button" id="download">download</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const cursive = new FontFace('England Hand DB', "url('https://fonts.cdnfonts.com/s/139/england.woff') format('woff')");
+
+
+        function drawFirstLine(ctx, text, canvasWidth) {
+            const upperText = text.toUpperCase();
+            ctx.font = '48px sans-serif';
+            const textWidth = ctx.measureText(upperText).width;
+            ctx.fillStyle = "white";
+            ctx.fillText(upperText, canvasWidth / 2 - textWidth / 2, 100);
+        }
+
+        function drawLastLine(ctx, text, canvasWidth) {
+            cursive.load().then(function (font) {
+                document.fonts.add(font);
+                ctx.font = "42px 'England Hand DB'";
+                const textWidth = ctx.measureText(text).width;
+                ctx.fillStyle = "white";
+                ctx.fillText(text, canvasWidth / 2 - textWidth / 2, 150);
+            });
+        }
+
+        function drawImage(ctx, imageFile, callback) {
+            const img = new Image();
+            const url = window.URL || window.webkitURL;
+            const src = url.createObjectURL(imageFile);
+
+            img.src = src;
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0);
+                url.revokeObjectURL(src);
+                callback();
+            }
+        }
+
+        generate.onclick = function () {
+            const verb = ligne1.value;
+            const complement = ligne2.value;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawImage(ctx, image.files[0], function () {
+                drawFirstLine(ctx, verb, canvas.width)
+                drawLastLine(ctx, complement, canvas.width)
+            });
+        }
+
+        download.onclick = function () {
+            const verb = ligne1.value;
+            const complement = ligne2.value;
+            const fileName = `Republigram_${verb} ${complement}.png`;
+            const data = canvas.toDataURL('image/png')
+                .replace(/^data:image\/[^;]*/, 'data:application/octet-stream')
+                .replace(/^data:application\/octet-stream/, `data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=${fileName}`);
+            const a = document.createElement("a");
+            a.setAttribute("download", fileName);
+            a.href = data;
+            a.click();
+        }
+    </script>
+</body>
+
+</html>
